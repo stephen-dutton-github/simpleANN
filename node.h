@@ -1,10 +1,14 @@
 
+typedef float (*regression) (float);
+typedef float (*sigmoid) (float);
+typedef float (*relu) (float);
+typedef float (*softmax) (float);
+typedef float* (*chain)(float*);
 
 typedef struct nodeDef{
     float** inputs;
     float** weights;
-
-    float (*regression) (float);
-    float (*sigmoid) (float);
-    float (*relu) (float);
+    chain _chain;
+    relu output;
 } node, *pNode;
+
