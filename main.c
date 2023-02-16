@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include "node.h"
 int main() {
-    printf("Hello, World!\n");
+    float* weightCheck = randomWeights(480000);
+    printf("Create 480000 weights: %ld", sizeof(weightCheck));
+
     return 0;
 }

@@ -3,4 +3,8 @@ project(simpleANN C)
 
 set(CMAKE_C_STANDARD 17)
 
-add_executable(simpleANN main.c node.c)
+
+enable_testing()
+include(CTest)
+
+add_executable(simpleANN main.c node.c nodeTests.h)
