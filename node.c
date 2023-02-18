@@ -18,7 +18,7 @@ float* randomWeights(int count){
     return results;
 }
 
-pNode createNode(unsigned int quantity, enum layerType type ){
+pNode createNode(unsigned int quantity, enum layerTypeEnum type ){
     size_t nodeSize = sizeof (struct nodeDef);
 
     pNode startNode = malloc(nodeSize * quantity);
@@ -27,7 +27,7 @@ pNode createNode(unsigned int quantity, enum layerType type ){
         switch(type){
             case hidden:
             case output:
-            startNode[i].weights=randomWeights(quantity);
+                startNode[i].weights=randomWeights(quantity);
             break;
         }
 
@@ -39,18 +39,18 @@ void freeNode(pNode node){
     free(node->weights);
 }
 
-pLayer createLayer(unsigned int nodeCount, enum  layerType _layerType, pLayer preceedingLayer){
+pLayer createLayer(unsigned int nodeCount, enum  layerTypeEnum lt, pLayer previousLayer){
 
     pLayer layer= malloc(sizeof(struct layerDef));
-    layer->nodes = createNode(nodeCount,_layerType);
+    layer->nodes = createNode(nodeCount,lt);
     layer->nodeCount = nodeCount;
-    layer->lType=_layerType;
+    layer->_layerType = lt;
 
     for(unsigned i=0;i < nodeCount; i++){
 
-        if(NULL != preceedingLayer){
-            for(unsigned int j=0; j< preceedingLayer->nodeCount;j++){
-                layer->nodes[i]->inputs[j] = *(preceedingLayer->nodes[j]->output);
+        if(NULL != previousLayer){
+            for(unsigned int j=0; j < previousLayer->nodeCount; j++){
+                layer->nodes[i]->inputs[j] = *(previousLayer->nodes[j]->output);
             }
         }
     }

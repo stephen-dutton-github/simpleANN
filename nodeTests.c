@@ -7,6 +7,7 @@
 #include <stdarg.h>
 #include <string.h>
 #include <regex.h>
+#include "node.h"
 #include "nodeTests.h"
 
 int main(int argc, char **argv){
@@ -17,6 +18,7 @@ int main(int argc, char **argv){
 
 
 void runNodeTests(){
+pNode nT = createNode(500000,input);
 
 
 }
