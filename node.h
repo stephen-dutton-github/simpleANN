@@ -6,7 +6,7 @@
 
 
 #define INPUT_NODES 480000
-#define HIDDEN_NODES 1000
+#define HIDDEN_NODES 100
 #define OUTPUT_NODES 5
 
 #define LEARNING_RATE 0.5f;
@@ -15,10 +15,10 @@ enum layerTypeEnum {input,hidden, output};
 
 typedef struct nodeDef{
     float* learningRate;
-    float* inputs;
+    float** inputs;
     float* weights;
-    float (*regression) (float);
     float* output;
+    float* bias;
 } node, *pNode;
 
 typedef struct layerDef
@@ -40,8 +40,7 @@ typedef struct networkDef{
     pLayer output;
 } network, *pNetwork;
 
-pNode createNode(unsigned int quantity, enum layerTypeEnum type);
-
+pNode createNode(unsigned int quantity, unsigned int numberOfInputs, enum layerTypeEnum type);
 pLayer createLayer(unsigned int nodeCount, enum  layerTypeEnum _layerType, pLayer previousLayer);
 pNetwork createNetwork(char* restrict name, pLayer* layers);
 
