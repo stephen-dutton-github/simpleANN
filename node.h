@@ -12,54 +12,30 @@
 
 enum layerTypeEnum {input,hidden, output};
 
-typedef struct networkNodesDescriptor{
-    int layers;
-    int index;
-    int* layerSpec
-} netNodes, *pNetNodes;
-
-typedef struct denseNodeDef{
+typedef struct neuronDef{
     float value;
     float bias;
     float learningRate;
-    struct denseNodeDef* inputs;
+    struct neuronDef* inputs;
     float* weights;
-} denseNode, *pDenseNode;
+} neuron, *pNeuron;
 
-typedef struct nodeDef{
-    float output;
-    float bias;
-    float* learningRate;
-    float* inputs;
-    float* weights;
-
-} node, *pNode;
-
-typedef struct layerDef
-{
-    unsigned int layerNumber;
+typedef struct neuronLayerDef{
+    int quantity;
+    pNeuron neurons;
     enum layerTypeEnum layerType;
-    pNode nodes;
-    unsigned int nodeCount;
-} layer, *pLayer;
+    struct neuronLayerDef* nextLayer;
+    struct neuronLayerDef* prevLayer;
+} neuronLayer, *pNeuronLayer;
+
 
 typedef struct networkDef{
-    char* restrict name;
-    enum layerTypeEnum lType;
-    unsigned int layerCount;
-    pLayer* allLayers;
-    pLayer input;
-    pLayer output;
+    int layerCount;
+    pNeuronLayer layers;
 } network, *pNetwork;
 
 extern char* restrict nodeErrorMessage;
-pNode       createNodes(unsigned int quantity, unsigned int numberOfInputs, enum layerTypeEnum type);
-pLayer      createLayer(unsigned int nodeCount, pLayer previousLayer, enum layerTypeEnum type);
-pNetwork    createNetwork(char* restrict name, pLayer* layers);
-int         createDenseNetwork(short layers, int inputLayerNodes, int hiddenLayerNodes, int outputLayerNodes, pNetwork result);
-
-
-float* randomWeights(int count);
-void freeNode(pNode);
-#endif
+pNeuron createNeuron(int quantity, pNeuronLayer previousLayer);
+pNeuronLayer createNeuronLayer(int neuronQuantity, enum layerTypeEnum layerType, pNeuronLayer previousLayer);
+pNetwork createNetwork(int layerCount, int* LayerNeuronCount);
 
