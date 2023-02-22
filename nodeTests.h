@@ -9,6 +9,7 @@
 void runNodeTests();
 void runLayerTests();
 void runNetworkTests();
+void buildNetworkTests();
 
 
 #endif //SIMPLEANN_NODETESTS_H

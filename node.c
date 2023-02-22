@@ -43,7 +43,34 @@ pNeuronLayer createNeuronLayer(int neuronQuantity, enum layerTypeEnum layerType,
     return result;
 }
 
-pNetwork createNetwork(int layerCount, int* layersNodeCount);
+pNetwork buildNetwork(int layerCount, int* layersNodeCount) {
+    pNeuronLayer previous;
+    previous = createNeuronLayer(layersNodeCount[0], input, NULL);
+    for (int i = 1; i < layerCount - 1; i++)
+    {
+        previous = createNeuronLayer(layersNodeCount[i], hidden, previous);
+    }
+    createNeuronLayer(layersNodeCount[layerCount - 1], output, previous);
 
+}
+
+
+void freeNetwork(pNetwork network){
+    for(int i =0; i < network->layerCount; i++){
+        if(network->layers->neurons->weights)
+        {
+            free(network->layers->neurons->weights);
+        }
+        if(network->layers->neurons)
+        {
+            free(network->layers->neurons);
+        }
+        if(network->layers)
+        {
+            free(network->layers);
+        }
+
+    }
+}
 
 
