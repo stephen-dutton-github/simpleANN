@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <signal.h>
 #include "node.h"
+#include "nodeTests.h"
 
 void sigint_handler(int signum) {
     printf("Received signal %d (SIGINT)\nClean up linkedList", signum);
@@ -10,6 +11,6 @@ void sigint_handler(int signum) {
 
 int main() {
 
-
+buildNetworkTests();
 
 }
