@@ -2,56 +2,33 @@
 // Created by sdutton on 09.05.23.
 //
 
-#include <malloc.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include "stack.h"
 
-pStack stackRef;
 
-void push(void* item){
-    if(!stackRef)
-        initStack();
-    pStackNode newItem = malloc(sizeof (struct stackNodeDef));
-    newItem->value = item;
-    newItem->previous = stackRef->current;
-    stackRef->current = newItem;
-};
-
-void* pop(){
-    if(!stackRef)
-        initStack();
-    if(stackRef->current->isSentinel)
-        return 0;
-    void* result  = stackRef->current->value;
-    pStackNode previous = stackRef->current->previous;
-    free(stackRef->current);
-    stackRef->current = previous;
-    return result;
-};
-
-void* peek(){
-    if(!stackRef)
-        initStack();
-    if(stackRef->current->isSentinel)
-        return 0;
-    return stackRef->current->value;
-};
-
-void freeStack(){
-    while(pop());
+// Initialize stack
+void init(struct Stack* stack) {
+    stack->top = -1;
 }
 
-pStack initStack(){
-    if(stackRef)
-        return stackRef;
-    stackRef = malloc(sizeof(struct stackDef));
-    stackRef->sentinel = malloc(sizeof(struct stackNodeDef));
-    stackRef->sentinel->isSentinel = 1;
-    stackRef->sentinel->previous=0;
-    stackRef->current = stackRef->sentinel;
-
-    stackRef->peek = &peek;
-    stackRef->pop = &pop;
-    stackRef->push = &push;
-    initStack();
+// Push an item onto the stack
+int push(struct Stack* stack, void* item) {
+    if (stack->top == STACK_SIZE - 1) {
+        printf("Stack is full.\n");
+        return -1;
+    }
+    stack->data[++stack->top] = item;
+    return 0;
 }
+
+// Pop an item from the stack
+void* pop(struct Stack* stack) {
+    if (stack->top == -1) {
+        printf("Stack is empty.\n");
+        return NULL;
+    }
+    return stack->data[stack->top--];
+}
+
 

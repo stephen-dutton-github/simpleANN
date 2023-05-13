@@ -5,25 +5,16 @@
 #ifndef SIMPLEANN_STACK_H
 #define SIMPLEANN_STACK_H
 
-typedef struct stackNodeDef{
-    int isSentinel;
-    struct stackNodeDef* previous;
-    void* value;
-} stackNode, *pStackNode;
+#define STACK_SIZE 100  // define max size of stack
 
-typedef struct stackDef{
-    pStackNode sentinel;
-    pStackNode current;
-    void (*push)(void*);
-    void* (*pop)();
-    void* (*peek)();
-} stack, *pStack;
+typedef struct Stack {
+    void* data[STACK_SIZE];
+    int top;
+}  *pStack;
 
-void push(void* item);
-void* pop();
-void* peek();
-pStack initStack();
-void freeStack();
+void init(struct Stack* stack) ;
+int push(struct Stack* stack, void* item) ;
+void* pop(struct Stack* stack) ;
 
 #endif //SIMPLEANN_STACK_H
 

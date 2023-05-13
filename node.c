@@ -7,7 +7,6 @@
 #include "node.h"
 #include "malloc.h"
 #include "stack.h"
-
 #include "math.h"
 
 
@@ -59,34 +58,35 @@ pNetwork buildNetwork(int layerCount, int* layersNodeCount) {
 
 void freeNetwork(pNetwork network){
 
-    /*
-    pStack stack = initStack();
+    pStack stack = malloc(sizeof (struct Stack));
+
+    init(stack);
+
     for(int i =0; i < network->layerCount; i++){
 
 
         if(network->layers)
         {
-            stack->push(network->layers);
+            push(stack,network->layers);
         }
 
         if(network->layers->neurons)
         {
-            stack->push(network->layers->neurons);
+            push(stack,network->layers->neurons);
         }
 
         if(network->layers->neurons->weights)
         {
-            stack->push(network->layers->neurons->weights);
+            push(stack,network->layers->neurons->weights);
         }
 
         while(1){
-            if(stack->peek() == 0)
+            free(pop(stack));
+            if(stack->top == -1)
                 break;
-            free(stack->pop());
         }
-        freeStack();
+
     }
-     */
 }
 
 
