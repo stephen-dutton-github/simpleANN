@@ -6,8 +6,10 @@
 #include "string.h"
 #include "node.h"
 #include "malloc.h"
+#include "stack.h"
 
 #include "math.h"
+
 
 
 float* randomWeights(int count){
@@ -56,21 +58,35 @@ pNetwork buildNetwork(int layerCount, int* layersNodeCount) {
 
 
 void freeNetwork(pNetwork network){
+
+    /*
+    pStack stack = initStack();
     for(int i =0; i < network->layerCount; i++){
-        if(network->layers->neurons->weights)
-        {
-            free(network->layers->neurons->weights);
-        }
-        if(network->layers->neurons)
-        {
-            free(network->layers->neurons);
-        }
+
+
         if(network->layers)
         {
-            free(network->layers);
+            stack->push(network->layers);
         }
 
+        if(network->layers->neurons)
+        {
+            stack->push(network->layers->neurons);
+        }
+
+        if(network->layers->neurons->weights)
+        {
+            stack->push(network->layers->neurons->weights);
+        }
+
+        while(1){
+            if(stack->peek() == 0)
+                break;
+            free(stack->pop());
+        }
+        freeStack();
     }
+     */
 }
 
 

@@ -11,11 +11,7 @@
 #include "node.h"
 #include "nodeTests.h"
 
-int main(int argc, char **argv){
-   buildNetworkTests();
-   /* runLayerTests();
-    runNetworkTests();*/
-}
+
 
 typedef int (*printHandler)(const char*,...);
 
