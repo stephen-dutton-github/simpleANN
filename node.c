@@ -30,7 +30,7 @@ pNeuron createNeuron(int quantity, pNeuronLayer previousLayer){
             result->inputs = previousLayer->neurons;
         }
     }
-
+    return result;
 }
 
 pNeuronLayer createNeuronLayer(int neuronQuantity, enum layerTypeEnum layerType, pNeuronLayer previousLayer){
@@ -45,14 +45,15 @@ pNeuronLayer createNeuronLayer(int neuronQuantity, enum layerTypeEnum layerType,
 }
 
 pNetwork buildNetwork(int layerCount, int* layersNodeCount) {
+    pNetwork net = malloc(sizeof (struct networkDef));
     pNeuronLayer previous;
     previous = createNeuronLayer(layersNodeCount[0], input, NULL);
     for (int i = 1; i < layerCount - 1; i++)
     {
         previous = createNeuronLayer(layersNodeCount[i], hidden, previous);
     }
-    createNeuronLayer(layersNodeCount[layerCount - 1], output, previous);
-
+    net->layers = createNeuronLayer(layersNodeCount[layerCount - 1], output, previous);
+    return net;
 }
 
 
@@ -65,14 +66,13 @@ void freeNetwork(pNetwork network){
     for(int i =0; i < network->layerCount; i++){
 
 
-        if(network->layers)
-        {
-            push(stack,network->layers);
-        }
+        if(network->layers) {
+            push(stack, &(network->layers));
 
-        if(network->layers->neurons)
-        {
-            push(stack,network->layers->neurons);
+
+            if (network->layers) {
+                push(stack, &(network->layers->neurons));
+            }
         }
 
         if(network->layers->neurons->weights)
