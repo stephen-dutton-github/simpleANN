@@ -37,11 +37,10 @@ typedef struct networkDef{
 } network, *pNetwork;
 
 extern char* restrict nodeErrorMessage;
-void initStack();
 pNeuron createNeuron(int quantity, pNeuronLayer previousLayer);
 pNeuronLayer createNeuronLayer(int neuronQuantity, enum layerTypeEnum layerType, pNeuronLayer previousLayer);
 pNetwork buildNetwork(int layerCount, int* LayerNeuronCount);
-void freeNetwork(pNetwork network);
+void freeNetwork(pNetwork net);
 
 
 #endif

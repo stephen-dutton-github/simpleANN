@@ -9,8 +9,7 @@
 
 // Initialize stack
 pStack initStack() {
-    if(!stack)
-        stack = malloc(sizeof (struct Stack));
+    pStack stack = malloc(sizeof (struct Stack));
     stack->top = -1;
     push(stack, stack);
     return stack;

@@ -12,10 +12,9 @@ typedef struct Stack {
     int top;
 }  *pStack;
 
-
+pStack initStack();
 int push(struct Stack* stack, void* item) ;
 void* pop(struct Stack* stack) ;
-pStack stack;
 
 #endif //SIMPLEANN_STACK_H
 

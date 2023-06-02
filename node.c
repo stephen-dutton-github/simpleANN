@@ -9,7 +9,7 @@
 #include "stack.h"
 #include "math.h"
 
-
+pStack stack;
 
 float* randomWeights(int count){
     float* results = malloc( sizeof(float)  * count);
@@ -52,7 +52,7 @@ pNeuronLayer createNeuronLayer(int neuronQuantity, enum layerTypeEnum layerType,
 }
 
 pNetwork buildNetwork(int layerCount, int* layersNodeCount) {
-    init(NULL);
+    stack = initStack();
     pNetwork net = malloc(sizeof (struct networkDef));
     push(stack,net);
     pNeuronLayer previous;
@@ -67,32 +67,11 @@ pNetwork buildNetwork(int layerCount, int* layersNodeCount) {
 }
 
 
-void freeNetwork(pNetwork network){
-
-
-
-
-    for(int i =0; i < network->layerCount; i++){
-
-        if(network->layers) {
-            push(stack, network->layers);
-        }
-
-        if(network->layers->neurons) {
-            push(stack, network->layers->neurons);
-        }
-
-        if(network->layers->neurons->weights)
-        {
-            push(stack, network->layers->neurons->weights);
-        }
-
-        while(1){
-            free(pop(stack));
-            if(stack->top == -1)
-                break;
-        }
-
+void freeNetwork(pNetwork net){
+    while(1){
+        free(pop(stack));
+        if(stack->top == 0)
+            break;
     }
     free(stack);
 }
