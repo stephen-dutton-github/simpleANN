@@ -13,6 +13,7 @@
 
 float* randomWeights(int count){
     float* results = malloc( sizeof(float)  * count);
+    push(stack,results);
     for(int i=0;i < count; i++){
         results[i] = (float) rand() / RAND_MAX;
     }
@@ -21,6 +22,7 @@ float* randomWeights(int count){
 
 pNeuron createNeuron(int quantity, pNeuronLayer previousLayer){
     pNeuron result = malloc(sizeof (struct neuronDef) * quantity);
+    push(stack,result);
     for(int i=0; i<quantity;i++) {
         result->bias = 0.5;
         result->learningRate = 0.5;
@@ -28,6 +30,9 @@ pNeuron createNeuron(int quantity, pNeuronLayer previousLayer){
         if (previousLayer) {
             result->weights = randomWeights(previousLayer->quantity);
             result->inputs = previousLayer->neurons;
+        } else{
+            result->weights = 0;
+            result->inputs = 0;
         }
     }
     return result;
@@ -35,8 +40,10 @@ pNeuron createNeuron(int quantity, pNeuronLayer previousLayer){
 
 pNeuronLayer createNeuronLayer(int neuronQuantity, enum layerTypeEnum layerType, pNeuronLayer previousLayer){
     pNeuronLayer result = malloc(sizeof (struct neuronLayerDef));
+    push(stack,result);
     result->neurons = createNeuron(neuronQuantity, previousLayer);
     result->quantity = neuronQuantity;
+    result->layerType = layerType;
     if(previousLayer){
         result->prevLayer =previousLayer;
         result->prevLayer->nextLayer = result;
@@ -45,7 +52,9 @@ pNeuronLayer createNeuronLayer(int neuronQuantity, enum layerTypeEnum layerType,
 }
 
 pNetwork buildNetwork(int layerCount, int* layersNodeCount) {
+    init(NULL);
     pNetwork net = malloc(sizeof (struct networkDef));
+    push(stack,net);
     pNeuronLayer previous;
     previous = createNeuronLayer(layersNodeCount[0], input, NULL);
     for (int i = 1; i < layerCount - 1; i++)
@@ -53,31 +62,29 @@ pNetwork buildNetwork(int layerCount, int* layersNodeCount) {
         previous = createNeuronLayer(layersNodeCount[i], hidden, previous);
     }
     net->layers = createNeuronLayer(layersNodeCount[layerCount - 1], output, previous);
+    net->layerCount = layerCount;
     return net;
 }
 
 
 void freeNetwork(pNetwork network){
 
-    pStack stack = malloc(sizeof (struct Stack));
 
-    init(stack);
+
 
     for(int i =0; i < network->layerCount; i++){
 
-
         if(network->layers) {
-            push(stack, &(network->layers));
+            push(stack, network->layers);
+        }
 
-
-            if (network->layers) {
-                push(stack, &(network->layers->neurons));
-            }
+        if(network->layers->neurons) {
+            push(stack, network->layers->neurons);
         }
 
         if(network->layers->neurons->weights)
         {
-            push(stack,network->layers->neurons->weights);
+            push(stack, network->layers->neurons->weights);
         }
 
         while(1){
@@ -87,6 +94,7 @@ void freeNetwork(pNetwork network){
         }
 
     }
+    free(stack);
 }
 
 

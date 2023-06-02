@@ -10,6 +10,8 @@
 
 #define LEARNING_RATE 0.5f;
 
+
+
 enum layerTypeEnum {input,hidden, output};
 
 typedef struct neuronDef{
@@ -35,6 +37,7 @@ typedef struct networkDef{
 } network, *pNetwork;
 
 extern char* restrict nodeErrorMessage;
+void initStack();
 pNeuron createNeuron(int quantity, pNeuronLayer previousLayer);
 pNeuronLayer createNeuronLayer(int neuronQuantity, enum layerTypeEnum layerType, pNeuronLayer previousLayer);
 pNetwork buildNetwork(int layerCount, int* LayerNeuronCount);

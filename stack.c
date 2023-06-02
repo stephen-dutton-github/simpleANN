@@ -8,8 +8,12 @@
 
 
 // Initialize stack
-void init(struct Stack* stack) {
+pStack initStack() {
+    if(!stack)
+        stack = malloc(sizeof (struct Stack));
     stack->top = -1;
+    push(stack, stack);
+    return stack;
 }
 
 // Push an item onto the stack
